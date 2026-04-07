@@ -1,19 +1,23 @@
-# Dependency folders
-node_modules/
-tk_frontend/node_modules/
-tk_backend/node_modules/
-
-# Environment variables (เก็บรหัสผ่าน DB)
-.env
-tk_backend/.env
-
-# Build folders
-dist/
-build/
-
-# Local images (กรณีเก็บรูปในเครื่อง)
-tk_backend/public/uploads/*
+# TINGKUM/.gitignore
 
 # OS generated files
 .DS_Store
+.DS_Store?
+._*
 Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Common Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore node_modules in case they are not in subfolders
+node_modules/
+
+# หากคุณไม่ได้ใช้ Git Submodule แต่ใช้แบบ Folder ปกติ
+# ให้ปลดคอมเมนต์ข้างล่างนี้เพื่อกัน node_modules ของตัวลูก
+# tk_frontend/node_modules/
+# tk_backend/node_modules/

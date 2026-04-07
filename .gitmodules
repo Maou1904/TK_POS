@@ -1,0 +1,6 @@
+[submodule "tk_frontend"]
+	path = tk_frontend
+	url = https://github.com/Maou1904/tk_frontend.git
+[submodule "tk_backend"]
+	path = tk_backend
+	url = https://github.com/Maou1904/tk_backend.git
