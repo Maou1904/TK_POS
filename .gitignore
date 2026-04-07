@@ -1,0 +1,19 @@
+# Dependency folders
+node_modules/
+tk_frontend/node_modules/
+tk_backend/node_modules/
+
+# Environment variables (เก็บรหัสผ่าน DB)
+.env
+tk_backend/.env
+
+# Build folders
+dist/
+build/
+
+# Local images (กรณีเก็บรูปในเครื่อง)
+tk_backend/public/uploads/*
+
+# OS generated files
+.DS_Store
+Thumbs.db
