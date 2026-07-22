@@ -73,6 +73,15 @@ Mobile and desktop share a cart through database-backed session tables:
 7. If a barcode is unknown, the same register-new-product flow is shown.
 8. Completing a POS sale writes the sale, decrements stock, clears the cart, and creates a desktop print request.
 
+## Deployment
+
+Deploy on Railway as two services. Because frontend and backend are separate Git repositories, connect each Railway service to its matching repository.
+
+1. Backend service uses the backend repository and reads `DATABASE_URL` or database variables from Railway service variables.
+2. Frontend service uses the frontend repository and serves the Vite build with `node server.js`.
+3. Frontend must define `VITE_API_BASE_URL` as the public backend Railway URL.
+4. Backend must listen on `process.env.PORT` because Railway injects the runtime port.
+
 ## Legacy Remote Barcode Scan
 
 The older scanner-only page is not the target flow. It is replaced by the shared POS session model above.
