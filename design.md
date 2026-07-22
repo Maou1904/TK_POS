@@ -73,6 +73,19 @@ Mobile and desktop share a cart through database-backed session tables:
 7. If a barcode is unknown, the same register-new-product flow is shown.
 8. Completing a POS sale writes the sale, decrements stock, clears the cart, and creates a desktop print request.
 
+## Database And Permissions
+
+Business data must be database-backed. Browser storage is allowed only for device/session convenience values such as `deviceId` and the visible daily session id.
+
+1. `app_users` and `app_user_sessions` control login.
+2. Roles are `owner` and `user`.
+3. `user` can create operational records only: POS checkout, Gas order, Lottery checkout, and Topup order.
+4. `user` cannot manage stock, create users, deactivate staff, cancel records, mark topup paid, mark gas paid, or receive returned gas tanks.
+5. `owner` can manage users, staff, members, product stock, lottery stock, gas items, status changes, cancellations, and password resets.
+6. Cancellations are soft deletes. They require a reason and keep the original record visible in history.
+7. Any stock-affecting action writes `inventory_movements`. Cancellation reverses those movements so stock is restored.
+8. `audit_logs` keeps create/update/delete/cancel history with actor, entity, reason, before data, and after data.
+
 ## Deployment
 
 Deploy on Railway as two services. Because frontend and backend are separate Git repositories, connect each Railway service to its matching repository.
