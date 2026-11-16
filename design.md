@@ -45,8 +45,8 @@ Mobile POS is optimized for one-handed barcode work.
 3. The scan button expands a camera panel from the top of the POS screen.
 4. When mobile scans a barcode, the shared cart updates on mobile and desktop.
 5. Middle and lower sections show only scanned cart items.
-6. A sticky bottom overlay button opens checkout.
-7. Checkout is a separate receipt-themed screen with totals, received cash, change, and a create-receipt button.
+6. A fixed cart button shows the total and opens checkout over the POS page on phones and tablets.
+7. Checkout shows totals, received cash, change, and the receipt action. Cash and bill discounts use an on-screen number pad with additive baht shortcuts and separate satang entry.
 8. Receipt creation from mobile creates a print request in the daily session. A desktop POS client polls those requests and opens the browser print dialog on the computer that is connected to the receipt printer.
 
 ## Daily App Session
