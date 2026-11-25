@@ -21,8 +21,8 @@
 | API dashboard | https://dashboard.render.com/web/srv-dc363pfavr4c73eekrc0 |
 | Shop dashboard | https://dashboard.render.com/static/srv-dc364grrjlhs73etjh6g |
 | Neon project | `snowy-cherry-29959433` (`tingkum-trial`, Free, Singapore) |
-| API commit | `665b9b1aeef067f4af74d18b9d37c3b87b126dec` |
-| Shop commit | `e367506c792462ae746260df358eab1956e4e837` |
+| API commit | `ed81c7b77643fb6601dfde9a67911a8327823a1c` |
+| Shop commit | `1b9629ac49a7a3870b21ee38c848677e69b1f0e0` |
 
 The initial Render deployments reached Live. This trial uses a new database with
 no existing shop sales imported. The Render environment is named
@@ -85,6 +85,24 @@ No passwords or database connection strings belong in this document.
 - The add-stock form exposes the brand selector. No browser console errors were
   observed during these checks. Live verification did not create sales; stock
   deduction and reversal were exercised in the isolated local test database.
+
+## Transfer dashboard update (2026-11-25)
+
+- Analytics now returns transfer records for the selected Bangkok day/month/year,
+  separately from sales. Cancelled transfers remain visible for reconciliation.
+- The overview, trend, categories, payment summary and staff totals include only
+  non-cancelled transfer fees. Transfer principal is displayed separately.
+- The transfer panel shows principal, fees, count, net cash, cash received, change,
+  and cancellation count; its detail table retains all entries in the period.
+- Sales average excludes cancelled bills. Transfer fees do not enter product item
+  counts or sales-only averages.
+- Excel now includes a Transfers worksheet and separate principal/fee/cash lines
+  in Summary. No tax calculation or tax-invoice behavior was changed.
+- Verified local API boundary/cancellation tests, frontend monetary/timezone tests,
+  build and lint. Both deployments reached Live. Checked the real day/month/year
+  dashboard and reconciled its amounts against the existing transfer screen.
+- Downloaded the real XLS and parsed all four worksheets; transfer detail totals
+  match Summary and its combined total equals sales plus fees, without principal.
 
 ## Free-plan behavior
 
