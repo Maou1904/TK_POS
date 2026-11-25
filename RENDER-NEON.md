@@ -21,11 +21,11 @@
 | API dashboard | https://dashboard.render.com/web/srv-dc363pfavr4c73eekrc0 |
 | Shop dashboard | https://dashboard.render.com/static/srv-dc364grrjlhs73etjh6g |
 | Neon project | `snowy-cherry-29959433` (`tingkum-trial`, Free, Singapore) |
-| API commit | `193286295ba63cea3b316b1b9311889ea50e7a02` |
-| Shop commit | `f02b9465dee59a8e3551d40c39339d4f277c4f69` |
+| API commit | `665b9b1aeef067f4af74d18b9d37c3b87b126dec` |
+| Shop commit | `e367506c792462ae746260df358eab1956e4e837` |
 
-Both Render deployments reached Live. This trial uses a new database with no
-products or existing shop sales imported. The Render environment is named
+The initial Render deployments reached Live. This trial uses a new database with
+no existing shop sales imported. The Render environment is named
 Production by the platform; the application and database are trial resources.
 
 The owner password was randomly generated locally and supplied as a private
@@ -63,6 +63,28 @@ No passwords or database connection strings belong in this document.
 - Browser owner login, POS, top-up, and stock screens loaded. Session survived reload.
 - No browser console errors were observed during these checks.
 - No live sale/cancellation or physical receipt-printer transaction was performed.
+
+## Gas brand update (2026-11-25)
+
+- Gas stock now has its own `brand` field. Owners select Siam or PTT when adding
+  cylinders, and can assign the brand of an existing row in the stock table.
+- Sales only display the chosen brand's cylinders. Switching brands clears the
+  previous selection; the API also rejects mixed or mismatched brand orders.
+- Legacy rows are classified only when their existing ID/name/operation identifies
+  exactly one brand. Shared or ambiguous stock remains unassigned for owner review.
+- Gas job IDs now include a random suffix so consecutive orders do not collide.
+- `node scripts/test-gas-brands.cjs` in the backend uses a disposable local database
+  to test migration, brand validation, mixed-order rollback, overselling, separate
+  full/empty stock for both brands, cancellation, and persistence after restart.
+- The live trial has 10 full Siam 15 kg cylinders and 10 full PTT 15 kg cylinders,
+  both at the user-approved trial price of 500 baht. PTT's existing stock and image
+  were preserved; Siam stock was received through the authenticated stock API.
+- Both updated deployments reached Live. Browser checks confirmed each brand
+  shows only its own cylinder, each has 10 full/0 empty, switching brands clears
+  the previous selection, and both saved brands appear in the stock table.
+- The add-stock form exposes the brand selector. No browser console errors were
+  observed during these checks. Live verification did not create sales; stock
+  deduction and reversal were exercised in the isolated local test database.
 
 ## Free-plan behavior
 
