@@ -147,7 +147,7 @@ No passwords or database connection strings belong in this document.
   still the browser speech and rule-based parser; no external language-model
   provider has been connected or customer text sent to an AI inference API.
 
-## Cloudflare AI integration prepared (2026-11-25)
+## Cloudflare AI activated and verified (2026-11-25)
 
 - API commit `7979d84558b3e1a7daa11a151c671c661d83101b` and frontend commit
   `34539361ee9e7629dad49817b2294196f27e12cb` both reached Live in deployments
@@ -156,19 +156,35 @@ No passwords or database connection strings belong in this document.
   structured order extraction. The frontend shows AI only when enabled, can
   cancel pending interpretation, and falls back to the local parser on errors
   or quota exhaustion. Drafts still require stock validation and human submission.
-- Activation is disabled by default until account ID, a scoped API token, an
-  explicit enable flag and free-plan confirmation are set in the backend.
-  No API token is stored in source or frontend build variables.
+- After user approval, the account ID, scoped API token, `GAS_VOICE_AI_ENABLED`
+  and `GAS_VOICE_AI_FREE_PLAN_CONFIRMED` were set in the existing Render API
+  service. No API token is stored in source or frontend build variables.
 - The Cloudflare account's Workers plans page was inspected: **Free** was marked
-  **Current plan**, including 10,000 Workers AI neurons per day. A token form named
-  **Tingkum gas voice** was prepared with only Workers AI Read/Edit for that
-  account. Token creation and provider activation remain pending user approval.
+  **Current plan**, including 10,000 Workers AI neurons per day. The token named
+  **Tingkum gas voice** grants only Workers AI Read/Edit for that account.
+  No paid plan, credits or billing upgrade was selected.
 - Backend provider tests use fake credentials and mocked inference; authentication
   checks passed against an isolated local database. Frontend build, lint and mocked
   browser tests passed for AI responses, quota fallback, clarification and cancellation.
-- Public health returned `ok: true`; the voice status endpoint rejects unauthenticated
-  requests with HTTP 401, and the served frontend contains the AI client. No actual
-  model request has been made, and model accuracy and live activation are unverified.
+- Backend commit `37566547a8e1097b2eb75b8cd7b84f589f17d3ca` reached Live in
+  `dep-dc3g3567bikc73d33h00` at about 22:42 Bangkok. This adds failure diagnostics
+  containing only status, numeric provider codes and timing; never order text,
+  model output or credentials. All 10 provider tests passed.
+- The live authenticated gas page displayed **AI**. Real inference with
+  `@cf/qwen/qwen3.8-27b` populated the form from the user's example:
+  `ส่งปตทถังใหญ่ 1 ถังให้คุณเจเจที่ดอนภูตา` became PTT 15 kg x 1,
+  customer `คุณเจเจ`, destination `ดอนภูตา`.
+- Live tests also verified that destination-only `หลังวัด` fills both identity
+  fields, and omitted name/destination clears both. A multi-size 15 kg + 4 kg
+  request was rejected atomically because the live inventory has no PTT 4 kg
+  product. Adding an actual 4 kg product and its price remains a shop stock setup
+  task; no products or prices were invented for the test.
+- The first inference was unavailable and visibly fell back to the local parser;
+  subsequent real requests succeeded. The initial cause was not established.
+  No gas sale was submitted, and the live form was cleared after testing.
+- Public health returned `ok: true`; the voice status endpoint rejects
+  unauthenticated requests with HTTP 401. Speech-to-text still uses the browser's
+  speech service; live model tests entered synthetic text into the voice text box.
 
 ## Free-plan behavior
 
