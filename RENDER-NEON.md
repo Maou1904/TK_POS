@@ -21,8 +21,8 @@
 | API dashboard | https://dashboard.render.com/web/srv-dc363pfavr4c73eekrc0 |
 | Shop dashboard | https://dashboard.render.com/static/srv-dc364grrjlhs73etjh6g |
 | Neon project | `snowy-cherry-29959433` (`tingkum-trial`, Free, Singapore) |
-| API commit | `ed81c7b77643fb6601dfde9a67911a8327823a1c` |
-| Shop commit | `1b9629ac49a7a3870b21ee38c848677e69b1f0e0` |
+| API commit | `d5dc973ae607cfa80b471d3ebeaa114b286718b5` |
+| Shop commit | `801f0704fe72e6e191db0b5b883c20fa7953ed43` |
 
 The initial Render deployments reached Live. This trial uses a new database with
 no existing shop sales imported. The Render environment is named
@@ -103,6 +103,30 @@ No passwords or database connection strings belong in this document.
   dashboard and reconciled its amounts against the existing transfer screen.
 - Downloaded the real XLS and parsed all four worksheets; transfer detail totals
   match Summary and its combined total equals sales plus fees, without principal.
+
+## Gas voice, account and lottery controls update (2026-11-25)
+
+- Both repositories were pushed on `codex/render-neon-trial` and manually deployed
+  through the existing Render services. API deploy `dep-dc3elkp5efls73bmnhhg` and
+  shop deploy `dep-dc3elpvavr4c73f6dbn0` both reached **Deploy succeeded | Live**
+  at approximately 21:04 and 21:05 Asia/Bangkok, respectively.
+- The gas page accepts one spoken order through browser speech recognition in
+  Thai, then fills brand, cylinder size, quantity and delivery details for review.
+  Matching uses actual brand-specific inventory, and ambiguous or unavailable
+  products leave the form unchanged. No SLM service or API key is required.
+- Account settings expose self-service password changes and owner password resets.
+  Resetting a password revokes old target sessions; an owner's own current session
+  is retained. Passwords are not exposed in API responses or audit logs.
+- The lottery stock map uses each number's reference stock for its color level.
+  Staff lottery sales reserve stock and await owner payment approval before they
+  count in closing totals. Pending approvals block shop closing.
+- Local build, lint, 12 frontend tests, mocked gas voice browser checks, and
+  isolated local password and gas-brand API tests passed before publication.
+- Live `/` and API `/health` returned HTTP 200, with health reporting `ok: true`.
+  The deployed `index-D2QRB3uF.js` contains the gas voice controls, Thai speech
+  configuration, account controls and lottery approval UI.
+- Real microphone recognition on the shop iPad remains to be tested. Live
+  verification did not create a sale or change a password.
 
 ## Free-plan behavior
 
