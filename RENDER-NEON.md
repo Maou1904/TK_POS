@@ -22,7 +22,7 @@
 | Shop dashboard | https://dashboard.render.com/static/srv-dc364grrjlhs73etjh6g |
 | Neon project | `snowy-cherry-29959433` (`tingkum-trial`, Free, Singapore) |
 | API commit | `d5dc973ae607cfa80b471d3ebeaa114b286718b5` |
-| Shop commit | `801f0704fe72e6e191db0b5b883c20fa7953ed43` |
+| Shop commit | `7a95801afac334133257050bb223e197c407a113` |
 
 The initial Render deployments reached Live. This trial uses a new database with
 no existing shop sales imported. The Render environment is named
@@ -127,6 +127,25 @@ No passwords or database connection strings belong in this document.
   configuration, account controls and lottery approval UI.
 - Real microphone recognition on the shop iPad remains to be tested. Live
   verification did not create a sale or change a password.
+
+## Multiple gas sizes and delivery phrases update (2026-11-25)
+
+- Frontend commit `7a95801afac334133257050bb223e197c407a113` reached
+  **Deploy succeeded | Live** in deploy `dep-dc3etvom7kps73e35vj0` at about
+  21:22 Asia/Bangkok. No backend change was required for this update.
+- One command can select multiple sizes of the same brand, including separate
+  quantities and shared counts such as "อย่างละ 2 ถัง". All sizes are checked
+  before any form values change, so a missing or insufficient size rejects the
+  entire proposed order rather than filling only part of it.
+- A destination without a separate name fills both customer label and address.
+  If a new product command has neither, both stay blank instead of inheriting
+  the previous customer's details. Explicit names take priority.
+- Recipient phrases such as "ให้คุณเจเจที่ดอนภูตา" now separate the name and
+  destination. Local build, lint, 17 frontend tests and mocked browser checks
+  passed, covering multi-size quantities, stock rejection and these name rules.
+- Live HTTP and served-asset checks confirmed the updated frontend. This is
+  still the browser speech and rule-based parser; no external language-model
+  provider has been connected or customer text sent to an AI inference API.
 
 ## Free-plan behavior
 
