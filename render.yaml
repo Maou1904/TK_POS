@@ -1,0 +1,53 @@
+# Create the Neon database first, then supply its pooled connection URL.
+# Repositories are separate; do not use the wrapper's submodule directories.
+services:
+  - type: web
+    name: tingkum-api-trial
+    runtime: node
+    plan: free
+    region: singapore
+    repo: https://github.com/Maou1904/tk_backend
+    branch: codex/render-neon-trial
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: TZ
+        value: Asia/Bangkok
+      - key: DATABASE_URL
+        sync: false
+      - key: DEFAULT_OWNER_USERNAME
+        value: owner
+      - key: DEFAULT_OWNER_PASSWORD
+        generateValue: true
+      - key: PUBLIC_API_URL
+        fromService:
+          type: web
+          name: tingkum-api-trial
+          envVarKey: RENDER_EXTERNAL_URL
+
+  - type: web
+    name: tingkum-shop-trial
+    runtime: static
+    repo: https://github.com/Maou1904/tk_frontend
+    branch: codex/render-neon-trial
+    buildCommand: npm ci --include=dev && npm run build
+    staticPublishPath: ./dist
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: tingkum-api-trial
+          envVarKey: PUBLIC_API_URL
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
