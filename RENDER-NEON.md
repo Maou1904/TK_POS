@@ -21,8 +21,8 @@
 | API dashboard | https://dashboard.render.com/web/srv-dc363pfavr4c73eekrc0 |
 | Shop dashboard | https://dashboard.render.com/static/srv-dc364grrjlhs73etjh6g |
 | Neon project | `snowy-cherry-29959433` (`tingkum-trial`, Free, Singapore) |
-| API commit | `d5dc973ae607cfa80b471d3ebeaa114b286718b5` |
-| Shop commit | `7a95801afac334133257050bb223e197c407a113` |
+| API commit | `7979d84558b3e1a7daa11a151c671c661d83101b` |
+| Shop commit | `34539361ee9e7629dad49817b2294196f27e12cb` |
 
 The initial Render deployments reached Live. This trial uses a new database with
 no existing shop sales imported. The Render environment is named
@@ -146,6 +146,29 @@ No passwords or database connection strings belong in this document.
 - Live HTTP and served-asset checks confirmed the updated frontend. This is
   still the browser speech and rule-based parser; no external language-model
   provider has been connected or customer text sent to an AI inference API.
+
+## Cloudflare AI integration prepared (2026-11-25)
+
+- API commit `7979d84558b3e1a7daa11a151c671c661d83101b` and frontend commit
+  `34539361ee9e7629dad49817b2294196f27e12cb` both reached Live in deployments
+  `dep-dc3f3k68bjmc73fh35v0` and `dep-dc3f3pnlot8c73a04hb0`, respectively.
+- The authenticated gas voice endpoints can call Cloudflare Workers AI for
+  structured order extraction. The frontend shows AI only when enabled, can
+  cancel pending interpretation, and falls back to the local parser on errors
+  or quota exhaustion. Drafts still require stock validation and human submission.
+- Activation is disabled by default until account ID, a scoped API token, an
+  explicit enable flag and free-plan confirmation are set in the backend.
+  No API token is stored in source or frontend build variables.
+- The Cloudflare account's Workers plans page was inspected: **Free** was marked
+  **Current plan**, including 10,000 Workers AI neurons per day. A token form named
+  **Tingkum gas voice** was prepared with only Workers AI Read/Edit for that
+  account. Token creation and provider activation remain pending user approval.
+- Backend provider tests use fake credentials and mocked inference; authentication
+  checks passed against an isolated local database. Frontend build, lint and mocked
+  browser tests passed for AI responses, quota fallback, clarification and cancellation.
+- Public health returned `ok: true`; the voice status endpoint rejects unauthenticated
+  requests with HTTP 401, and the served frontend contains the AI client. No actual
+  model request has been made, and model accuracy and live activation are unverified.
 
 ## Free-plan behavior
 
