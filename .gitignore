@@ -17,6 +17,9 @@ Desktop.ini
 # Ignore node_modules in case they are not in subfolders
 node_modules/
 
+# Local PostgreSQL test clusters (data, logs and runtime files)
+/tingkum-pg-test-*/
+
 # หากคุณไม่ได้ใช้ Git Submodule แต่ใช้แบบ Folder ปกติ
 # ให้ปลดคอมเมนต์ข้างล่างนี้เพื่อกัน node_modules ของตัวลูก
 # tk_frontend/node_modules/
