@@ -256,6 +256,23 @@ No passwords or database connection strings belong in this document.
   form entries were cleared, leaving the live gas page ready with AI connected.
 - Setup/operation: `tk_backend/LOCAL-GAS-AI.md`.
 
+## Gas destination registration preserved (2026-11-26)
+
+- Backend `cae5c8daecc9b1f3e63e456a1369f02ce0a4df08`, rollout
+  `dep-dc3ui815efls73chj3gg`: local model instructions retain registration as a
+  delivery detail. Validation restores an explicitly spoken registration when
+  the model shortens an otherwise valid destination, without duplicating it.
+- Frontend `9ad5c681c996fcec813b97a2743130948138af47`, rollout
+  `dep-dc3uibff3r2c739os2lg`: rules recognize a standalone destination beginning
+  with `ที่` and keep registration digits separate from counts and phone numbers.
+- Regression: `ปตทถังใหญ่ 1 ถังที่ดอนปู่ตาทะเบียน 123` retains
+  `ดอนปู่ตา ทะเบียน 123` in the destination. Tests cover Thai/alphanumeric plates,
+  explicit customer names, a separate phone number, and no duplicate registration.
+  Thirteen relay/validation tests, 15 parser tests, real Ollama/worker round trips,
+  frontend build and lint passed. The PC worker was restarted with the new prompt.
+- The existing live shop tab held an in-progress user order and was left intact.
+  No sale or inventory modification was performed for this update.
+
 ## Free-plan behavior
 
 The Render API can sleep after 15 minutes without traffic. The first request after
