@@ -216,30 +216,44 @@ No passwords or database connection strings belong in this document.
 - Detailed workflow: `LOTTERY-CONTROLS.md`. No live stock reset, payment approval
   or sale was performed during validation.
 
-## Production PC gas AI relay prepared (2026-11-26)
+## Production PC gas AI relay live (2026-11-26)
 
-- Backend `a1d30b1066a06bec1bd928698e78af782f9ac427` replaces hosted-model calls
-  with an outbound PC worker and a short-lived in-memory request queue. Its first
-  rollout is `dep-dc3tjfd6e07s73di8es0`.
-- Frontend `a6d39fc` polls readiness and switches local AI/rules without reloading
-  or clearing typed text. Availability still fails closed until the PC public
-  verification key is pinned in the Render API environment.
+- Backend `07f9a8ad0b984f364f17ff15bf748ee6bf0a6b83` replaces hosted-model calls
+  with an outbound PC worker and a short-lived in-memory request queue. Final
+  live rollout: `dep-dc3ueg5g1s2s73cpc890`. The activation rollout was
+  `dep-dc3ucqd6e07s73dkjke0`.
+- Frontend `a6d39fcd64466e648475ad8072ecc11b110cae7d`, deployment
+  `dep-dc3tjj49v7es73d8bs30`, polls readiness and switches local AI/rules without
+  reloading or clearing typed text. Served entry asset: `/assets/index-BOxiD1_g.js`.
+- Following the user's scoped confirmation, Render now pins the PC public
+  verification key (fingerprint `dccc2337ca4cf7e0`) with gas AI enabled. Removed
+  `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN` and the obsolete free-plan flag
+  from the service environment. Database and owner settings were preserved.
 - The PC identity private key stays in ignored, ACL-protected local runtime files.
   Only the public verification key is intended for Render. The worker identity
   is scoped to inference heartbeat/job/result endpoints and does not grant shop
   login, sales, inventory, account or database access.
 - Windows current-user Startup launcher `Tingkum Gas AI.vbs` was installed and
   exercised. The worker started hidden, warmed Qwen3 4B on GPU, and duplicate
-  launches retained one worker process. Before server activation, readiness is
-  local-only and the server correctly rejects worker authentication.
+  launches retained one worker process. It connects to the HTTPS Render API and
+  starts after this Windows user signs in; the PC must stay awake and online.
 - Twelve relay/auth/validation tests, actual Ollama + worker loopback tests,
   frontend build/lint, 17 frontend unit tests, gas/lottery mocked browser checks
   and isolated password/lottery database checks passed. Real worker loopback
   round trips were 651 ms and 534 ms; this excludes production network latency.
   Tests covered abrupt worker loss, graceful stop, reconnection, late-result
   rejection and online/offline UI switching without reload.
-- Provider activation and the live shop-to-PC inference/fallback check remain
-  pending the final scoped-access confirmation and environment save.
+- Live owner-page validation passed: the badge changed from rules to local AI
+  without refresh; a named recipient and two sizes filled their separate counts;
+  a place-only order filled both name/address as `ร้านป้าตุ้ม`; missing name/place
+  stayed blank. The real worker regression test also covers all three cases.
+- Stopping the actual worker changed the live page to rules while retaining the
+  draft, and the rule parser filled an order. Restarting re-enabled AI without
+  refresh. Inference succeeded again after the final backend deployment, and
+  `/health` returned OK. Worker-reported production-job processing was about
+  0.7 seconds for the initial samples; this is not full user-perceived latency.
+- No live sale, payment approval or inventory change was performed. Synthetic
+  form entries were cleared, leaving the live gas page ready with AI connected.
 - Setup/operation: `tk_backend/LOCAL-GAS-AI.md`.
 
 ## Free-plan behavior
