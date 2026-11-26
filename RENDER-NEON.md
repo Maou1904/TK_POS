@@ -291,6 +291,28 @@ No passwords or database connection strings belong in this document.
   390x844; the idle voice panel is under 210 px on iPad and under 260 px on phone.
   No live sale was performed. Local screenshots: `artifacts/gas-compact/`.
 
+## Distant gas delivery surcharge (2026-11-26)
+
+- Backend `82f83683f006776ef89428254dd8a92ab3a19d7c` reached Live in rollout
+  `dep-dc3ur2vf3r2c739pjipg` before releasing the updated frontend
+  `0d675f8d684050e7b8d8e5f5aa8013bf9cc77fb2`.
+  Frontend rollout `dep-dc3urfd6e07s73dlt9eg` also reached Live.
+- The Gas delivery form has a `ส่งไกล` checkbox immediately below Paid. Selecting
+  it adds 50 baht for each full cylinder being sold, across all selected sizes.
+  Base delivery fees remain separate in the form. Unchecking removes the extra
+  fee; a successfully submitted order resets the checkbox for the next order.
+- The API computes the surcharge from validated item quantities, ignoring any
+  client-supplied surcharge amount. Additive `gas_jobs.distant_delivery` and
+  `distant_delivery_fee` columns preserve the selection and amount; old rows
+  default to false/zero. `delivery_fee` includes base delivery plus the surcharge
+  so existing closing totals reconcile, and the receipt note records the split.
+- Isolated local DB checks cover single/multiple sizes, invalid quantities/fees,
+  tampered surcharge amounts, persisted values after restart, closing totals and
+  cancellation reversal. Mocked browser checks cover toggling, quantity changes,
+  base fee edits, tab retention, request payload and reset after submission.
+  Frontend build/lint passed, and checkbox placement was visually reviewed.
+  No live order or payment was submitted for verification.
+
 ## Free-plan behavior
 
 The Render API can sleep after 15 minutes without traffic. The first request after
