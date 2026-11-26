@@ -216,6 +216,32 @@ No passwords or database connection strings belong in this document.
 - Detailed workflow: `LOTTERY-CONTROLS.md`. No live stock reset, payment approval
   or sale was performed during validation.
 
+## Production PC gas AI relay prepared (2026-11-26)
+
+- Backend `a1d30b1066a06bec1bd928698e78af782f9ac427` replaces hosted-model calls
+  with an outbound PC worker and a short-lived in-memory request queue. Its first
+  rollout is `dep-dc3tjfd6e07s73di8es0`.
+- Frontend `a6d39fc` polls readiness and switches local AI/rules without reloading
+  or clearing typed text. Availability still fails closed until the PC public
+  verification key is pinned in the Render API environment.
+- The PC identity private key stays in ignored, ACL-protected local runtime files.
+  Only the public verification key is intended for Render. The worker identity
+  is scoped to inference heartbeat/job/result endpoints and does not grant shop
+  login, sales, inventory, account or database access.
+- Windows current-user Startup launcher `Tingkum Gas AI.vbs` was installed and
+  exercised. The worker started hidden, warmed Qwen3 4B on GPU, and duplicate
+  launches retained one worker process. Before server activation, readiness is
+  local-only and the server correctly rejects worker authentication.
+- Twelve relay/auth/validation tests, actual Ollama + worker loopback tests,
+  frontend build/lint, 17 frontend unit tests, gas/lottery mocked browser checks
+  and isolated password/lottery database checks passed. Real worker loopback
+  round trips were 651 ms and 534 ms; this excludes production network latency.
+  Tests covered abrupt worker loss, graceful stop, reconnection, late-result
+  rejection and online/offline UI switching without reload.
+- Provider activation and the live shop-to-PC inference/fallback check remain
+  pending the final scoped-access confirmation and environment save.
+- Setup/operation: `tk_backend/LOCAL-GAS-AI.md`.
+
 ## Free-plan behavior
 
 The Render API can sleep after 15 minutes without traffic. The first request after

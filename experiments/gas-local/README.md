@@ -20,6 +20,6 @@ Synthetic smoke test: `node experiments/gas-local/benchmark.cjs`.
 On RTX 5070, the initial warm test of five orders took 292–637 ms per extraction.
 This is a small local test, not a guarantee for all input or other hardware.
 
-Latest user direction: test locally first; the live Cloudflare integration remains
-unchanged until a separate decision to switch providers. No worker credential,
-production environment change, autostart entry or tunnel has been created.
+The comparison page remains a loopback-only trial. Production local inference is
+now implemented separately in `tk_backend/scripts/gas-voice-worker.cjs`; see
+`tk_backend/LOCAL-GAS-AI.md` for signed relay, Windows startup and fallback.

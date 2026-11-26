@@ -47,6 +47,6 @@ removed quantities remain in audit/inventory movements.
   staff submission, owner cash entry, reset confirmation/stale review, and existing
   gas speech/AI flows. Mocked tests never create a production sale or clear real stock.
 
-Local AI experimentation is separate at `experiments/gas-local/`. The live gas
-provider remains Cloudflare, following the user's direction to test on the PC
-before deciding to switch.
+Local AI experimentation remains at `experiments/gas-local/`. Production gas AI
+uses the signed PC worker described in `tk_backend/LOCAL-GAS-AI.md`; lottery
+payment permissions and draw reset behavior are independent of that provider.
