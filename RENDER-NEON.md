@@ -186,6 +186,36 @@ No passwords or database connection strings belong in this document.
   unauthenticated requests with HTTP 401. Speech-to-text still uses the browser's
   speech service; live model tests entered synthetic text into the voice text box.
 
+## Lottery payment controls and manual draw reset (2026-11-26)
+
+- Backend revision `683bec3cf941e584099acd590474e340811bdc05` deployed through
+  `dep-dc3t8j95efls73cdkbi0`. Frontend revision
+  `4baf78c240039252e191574bfc39eda84c599923` deployed through
+  `dep-dc3t8ne1egvs73emkmgg`. Both were verified **Live** in Render on November 26.
+  Public shop HTTP 200 and API `ok: true` checks passed; the served frontend asset
+  is `/assets/index-DCFzvDp2.js`.
+- Staff navigation is limited to POS, Gas, Lottery and Mobile Topup. Transfer
+  records and analytics require owner permission on the API as well.
+- The lottery approval queue survives business-date changes. Owners must enter
+  actual counted cash; the submitter and approver remain separate evidence.
+- Manual reset controls on Lottery/Stock review and clear only 00–99 inventory
+  and unsubmitted carts. Sales history, pending approvals and existing six-digit
+  stock remain. Old-generation cancellations cannot replenish a new draw.
+- Isolated local DB tests cover role bypass, payment confirmation, pending totals,
+  close guard, stale reset review, history/queue retention, old/current reversals,
+  restart and concurrent checkout. Frontend mocked browser checks, build/lint,
+  17 unit tests and existing gas/password checks passed.
+- Local AI is a separate trial at `http://127.0.0.1:5012/`; the live Cloudflare
+  provider and its environment remain unchanged per the user's latest direction.
+  The PC trial was opened and visually checked; a real local extraction took
+  0.59 seconds, compared with 0.9 ms for the rule parser on that sample.
+- The authenticated live owner lottery page displayed the reset button and
+  loaded its stock review from the deployed backend. The dialog was closed
+  without selecting confirmation or applying the reset. Staff navigation and
+  payment changes were validated with mocked browser and isolated DB tests.
+- Detailed workflow: `LOTTERY-CONTROLS.md`. No live stock reset, payment approval
+  or sale was performed during validation.
+
 ## Free-plan behavior
 
 The Render API can sleep after 15 minutes without traffic. The first request after
