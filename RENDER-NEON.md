@@ -273,6 +273,24 @@ No passwords or database connection strings belong in this document.
 - The existing live shop tab held an in-progress user order and was left intact.
   No sale or inventory modification was performed for this update.
 
+## Compact gas voice panel and tracking tab (2026-11-26)
+
+- Frontend `49c53734dce1c3a53bf622d4250229362abe6ff6` reduces voice entry to a
+  compact microphone action, example, editable result and parser status. The
+  apply/cancel controls appear when needed; microphone targets remain at least
+  44 px high. Existing text extraction and stock checks remain in use.
+  Render rollout `dep-dc3un8s9v7es73dbllag` reached Live; the existing shop draft
+  was preserved rather than reloading the user's active page.
+- Gas now has separate Sales and Tracking tabs. Tracking contains outstanding
+  jobs/returns and today's recent orders. Switching retains the sales form and
+  transcript, and cancels recording/inference so late results cannot change a
+  hidden form. Arrow/Home/End keyboard navigation is supported.
+- Build/lint and mocked browser checks passed, including voice events, errors,
+  cancellation, stock checks, AI/rules switching, tab draft retention and late
+  result cancellation. Screenshots were reviewed at 1024x768, 768x1024 and
+  390x844; the idle voice panel is under 210 px on iPad and under 260 px on phone.
+  No live sale was performed. Local screenshots: `artifacts/gas-compact/`.
+
 ## Free-plan behavior
 
 The Render API can sleep after 15 minutes without traffic. The first request after
