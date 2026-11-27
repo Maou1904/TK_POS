@@ -474,6 +474,18 @@ No passwords or database connection strings belong in this document.
   `https://tingkum-shop-trial.onrender.com/?v=2c66d46`. No real transaction was
   submitted merely to trigger the sound.
 
+## Louder checkout sound (2026-11-27)
+
+- Frontend `179c42be816d551302117b943f168b92ecd5ba54` increases the register
+  waveform amplitude to 1.5 times the previous level, as requested (+50%).
+  Sound timing and success-only playback are unchanged.
+- Build/lint and the existing Web Audio checkout regression passed, including
+  the peak-amplitude check below clipping, retries, keyboard submission, context
+  resume and checkout without audio support. All shop writes were mocked.
+- Render rollout `dep-dc4prfmi0phs73b659hg` reached **Deploy succeeded | Live**
+  around 22:12 Bangkok time. The versioned shop URL `?v=179c42b-live` returned
+  HTTP 200 and loaded `/assets/index-DjHyIFoV.js` without browser errors.
+
 ## Free-plan behavior
 
 The Render API can sleep after 15 minutes without traffic. The first request after
