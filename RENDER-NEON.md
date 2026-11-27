@@ -423,6 +423,34 @@ No passwords or database connection strings belong in this document.
   rows three/four, with the intended colors. The temporary form was discarded
   without saving a payment. Browser error logs were empty.
 
+## Manual camera capture beside the POS bill (2026-11-27)
+
+- Frontend `5214c5c8496b9500fdc0ad1e8bf4d01cc55cff41` places a persistent
+  camera preview on the left and the ordinary sales bill on the right on iPad.
+  Narrow phones stack the panels while retaining large touch controls.
+- Opening the camera never starts barcode detection. Each capture button press
+  freezes one frame and decodes that image using native BarcodeDetector or ZXing.
+  One press adds at most one product; no result or multiple native detections ask
+  for a new capture. Repeated deliberate captures can add the same product again.
+- The camera stays open after scanning and during checkout. Pending decoding and
+  submissions disable capture; unknown products require review before continuing.
+  Closing the panel, leaving POS or signing out releases camera tracks, including
+  streams returned after a delayed permission prompt. Stock/API failures do not
+  display a false success.
+- Build/lint and the mocked dashboard/POS regression passed. The dedicated camera
+  browser check covered native frozen-image detection, actual ZXing decoding of a
+  synthetic QR video frame, no background scanning, duplicate prevention, iPad
+  portrait/landscape geometry, phone layout, stock/unknown errors, permission
+  retry, late-stream cleanup, cancelled decoding, camera switching and navigation.
+  All write paths used mocked shop APIs. A physical iPad camera remains untested.
+
+- Render rollout `dep-dc4plerl550s73a8ef10` reached **Deploy succeeded | Live**
+  on November 27 around 21:59 Bangkok time. API health returned `ok: true`.
+  The live shop loaded `/assets/index-CGuhV94t.js` and
+  `/assets/index-DJ3ReTRr.css`; its new camera toggle and side-by-side layout rule
+  were confirmed with no browser errors. No live camera permission, sale,
+  payment, approval or inventory write was needed for this deployment check.
+
 ## Free-plan behavior
 
 The Render API can sleep after 15 minutes without traffic. The first request after
