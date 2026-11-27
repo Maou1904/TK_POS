@@ -451,6 +451,29 @@ No passwords or database connection strings belong in this document.
   were confirmed with no browser errors. No live camera permission, sale,
   payment, approval or inventory write was needed for this deployment check.
 
+## Cash-register completion sound (2026-11-27)
+
+- Frontend `2c66d46214bfd6d39e433b9222a9eb7b9f03f3c1` plays a short original
+  cash-register click/chime alongside the existing transaction completion notice.
+  The sound is generated locally with Web Audio and requires no asset download.
+- Sound is triggered once in the shared success callback, after the API succeeds.
+  Failed operations remain silent; rerenders and dismissals never replay it.
+  Trusted touch/pointer/click/keyboard gestures prepare or resume the audio
+  context before asynchronous checkout responses, including Safari's prefixed
+  context fallback. Missing or blocked audio never interrupts the transaction.
+- Build/lint and mocked dashboard/POS/topup/electricity regression passed with
+  the real Chromium Web Audio engine: audible sample data, one source per
+  success, no failed-operation sound, keyboard Enter, resume after suspension,
+  and successful checkout when Web Audio is unavailable. All shop writes were
+  mocked. Physical iPad speaker playback remains untested.
+
+- Render rollout `dep-dc4ppldg1s2s73fcbhjg` reached **Deploy succeeded | Live**
+  on November 27 around 22:08 Bangkok time. A fresh versioned shop URL loaded
+  `/assets/index-CvFsGYFv.js` without browser errors. The ordinary URL briefly
+  retained the preceding HTML in cache after rollout, so the verification used
+  `https://tingkum-shop-trial.onrender.com/?v=2c66d46`. No real transaction was
+  submitted merely to trigger the sound.
+
 ## Free-plan behavior
 
 The Render API can sleep after 15 minutes without traffic. The first request after
