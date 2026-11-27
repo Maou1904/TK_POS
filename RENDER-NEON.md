@@ -313,6 +313,34 @@ No passwords or database connection strings belong in this document.
   Frontend build/lint passed, and checkbox placement was visually reviewed.
   No live order or payment was submitted for verification.
 
+## Lottery cash keypad and electricity payments (2026-11-27)
+
+- Backend `8471bfd83202efbcb0016a0c62290fb4f8a27b00` adds electricity payment
+  records, a separate default service fee, cancellation/audit evidence, and its
+  own closing confirmation. Existing transfers migrate with their original type.
+- Frontend `caf65b4ca01537bdbe56b21e602eed9dffbf7825` adds a lottery cash
+  popup with exact/100/200/500/1000 shortcuts, counted-cash owner approval, and
+  a separate electricity entry page using the transfer workflow. The lottery
+  draw reset control is now available only in Stock.
+- Electricity bill amounts stay separate from fee revenue. Reports and exports
+  label the service, and cancelled entries remain available for reconciliation.
+- Local checks passed: frontend build/lint, simulated iPad/phone browser checks,
+  isolated database migration, role and amount validation, idempotent retries,
+  service isolation, repeated meter IDs, cancellation, closeout and restart.
+
+- Backend rollout `dep-dc4oaddg1s2s73f7dbo0` and frontend rollout
+  `dep-dc4oapou01pc73eprrp0` reached Live on November 27, around 20:27 and
+  20:29 Bangkok time respectively. Served frontend asset: `/assets/index-dfx39kyk.js`.
+- Public shop returned HTTP 200 and API health returned `ok: true`. The signed-in
+  owner page loaded electricity records/settings from the real API. A temporary
+  123.45 baht bill plus 20 baht fee showed a 143.45 baht total and 56.55 baht
+  change from 200 baht; it was discarded without saving.
+- The live lottery popup showed all five shortcuts and correctly calculated
+  change. It was closed without confirming; the existing lottery cart was retained.
+  The draw reset button was confirmed in Stock, and the electricity default-fee
+  field was visible in Settings. No settings, payment approvals, sales or stock
+  were changed during live verification. Browser error logs were empty.
+
 ## Free-plan behavior
 
 The Render API can sleep after 15 minutes without traffic. The first request after
