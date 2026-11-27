@@ -374,6 +374,30 @@ No passwords or database connection strings belong in this document.
   discarded by reloading. No sale, payment, approval or inventory write was
   submitted; browser error logs were empty.
 
+## Shared topup-inspired shop theme (2026-11-27)
+
+- Frontend `dba972c1c43b2cc450f477d8ec84ec8e0b7b1e82` adds `src/shop-theme.css`,
+  based on the user-approved mobile topup design: dark green primary actions,
+  white controls with clear borders, pale green keypad panels and strong selected
+  states. Sales, gas, lottery, transfer/electricity, analytics and management views
+  share these tokens without changing their workflows.
+- Ordinary secondary actions are green; explicit destructive actions retain red
+  styling. Lottery stock-level colors and status badges preserve their meanings.
+  Keyboard focus remains visible and the paid switch uses the shared green.
+- Frontend build/lint and existing mocked dashboard, topup, POS, gas, lottery and
+  electricity workflows passed. iPad portrait/landscape and phone screenshots
+  were reviewed; the temporary browser tests made no live shop writes.
+
+- Render rollout `dep-dc4oqkei0phs73b2mfu0` reached **Deploy succeeded | Live**
+  on November 27 around 21:02 Bangkok time. Public shop HTTP 200 and API health
+  `ok: true` passed. Served assets: `/assets/index-DuFfwGlc.js` and
+  `/assets/index-Dy4b_nD9.css`.
+- Live owner navigation through transfer, electricity, gas, lottery, dashboard,
+  stock, staff and settings loaded the shared theme. The transfer keypad and
+  white bordered controls were visually checked. Browser error logs were empty.
+  No payment, sale, approval, stock or settings change was submitted for this
+  style-only verification.
+
 ## Free-plan behavior
 
 The Render API can sleep after 15 minutes without traffic. The first request after
