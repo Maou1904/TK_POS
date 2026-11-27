@@ -398,6 +398,31 @@ No passwords or database connection strings belong in this document.
   No payment, sale, approval, stock or settings change was submitted for this
   style-only verification.
 
+## Enter-style keypads and exact-cash shortcuts (2026-11-27)
+
+- Frontend `d83cabe647092751df8237831a1463fa07b6f175` introduces a shared
+  keypad: red Delete at the top right, amber Clear below it, and a green Enter
+  action spanning the bottom two rows. Zero spans the lower numeric columns.
+- Transfer/electricity summary and collection buttons now live on the keypad
+  and remain associated with the real validated form. POS uses Enter to review
+  payment; topup and lottery entry expose the appropriate keypad action.
+- Exact cash is the largest full-width shortcut above equal 100/200/500/1000
+  buttons. Cash entry is shared across transfer/electricity, POS and lottery
+  approval. The lottery popup uses side-by-side cash/keypad columns on tablets.
+- Build/lint and mocked dashboard/POS/topup/lottery/electricity browser checks
+  passed, including underpayment, retries, actual keyboard Enter, exact-cash
+  precision and iPad portrait/landscape geometry. No live sale was required.
+
+- Render rollout `dep-dc4p10cipgvc738ev7fg` reached Live on November 27
+  around 21:16 Bangkok time. Public shop HTTP 200 and API health `ok: true`
+  passed; served assets are `/assets/index-BM7HJWDa.js` and
+  `/assets/index-DAYSHAtm.css`.
+- Live owner verification used Enter to reach the electricity collection screen.
+  Exact cash filled the fee-inclusive amount; selecting 200 baht produced the
+  correct change. Delete was confirmed in the first grid row and Enter spans
+  rows three/four, with the intended colors. The temporary form was discarded
+  without saving a payment. Browser error logs were empty.
+
 ## Free-plan behavior
 
 The Render API can sleep after 15 minutes without traffic. The first request after
