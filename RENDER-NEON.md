@@ -341,6 +341,39 @@ No passwords or database connection strings belong in this document.
   field was visible in Settings. No settings, payment approvals, sales or stock
   were changed during live verification. Browser error logs were empty.
 
+## Dashboard charts and iPad sales workflows (2026-11-27)
+
+- Frontend `0fd19c7c64737547505d9179c6e73552888209b7` adds hourly/daily/monthly
+  line charts for the chosen report period and individual sales/service channels.
+  Empty time slots remain visible; service principal never enters fee revenue.
+- Sales history is paginated at 20/50/100 rows. Report range changes reset the
+  page, periodic refresh retains the current page, and Excel still exports the
+  entire selected period.
+- Gas speech entry can open delivery details without a prior tank selection.
+  Missing brand/size choices and a late-loading catalog retain the voice draft,
+  quantities and customer edits until product selection can be completed.
+- Mobile topup uses two columns on iPad: provider/amount/confirm on the left and
+  phone/keypad on the right. Buttons have stronger borders and selected states.
+- Successful transactions show a centered confirmation, with change where cash
+  was counted, then slide away. Pending lottery submissions remain labeled as
+  awaiting owner approval. Reduced-motion preferences and manual dismissal work.
+- Build/lint, 21 unit tests, mocked gas/lottery/dashboard browser tests passed.
+  Checks cover chart totals and time boundaries, pagination and complete Excel
+  exports, speech-first partial drafts and delayed inventory, iPad layouts,
+  retries, successful/failed completion feedback and change. No store data was
+  used for these write-path tests.
+
+- Render rollout `dep-dc4on07f3r2c73c6lg70` reached Live on November 27 around
+  20:54 Bangkok time. Public shop HTTP 200 and API health `ok: true` passed;
+  served entry asset is `/assets/index-DzDqpmDz.js`.
+- Live owner checks confirmed a 24-hour daily graph, a 30-day November graph,
+  a 12-month yearly graph, and the real monthly sales list split into 20 and
+  13 rows across two pages. The topup screen has the new two-column controls.
+- Real PC AI extraction opened delivery details without a prior tank selection
+  and retained a synthetic recipient/destination. The temporary gas form was
+  discarded by reloading. No sale, payment, approval or inventory write was
+  submitted; browser error logs were empty.
+
 ## Free-plan behavior
 
 The Render API can sleep after 15 minutes without traffic. The first request after
