@@ -486,6 +486,42 @@ No passwords or database connection strings belong in this document.
   around 22:12 Bangkok time. The versioned shop URL `?v=179c42b-live` returned
   HTTP 200 and loaded `/assets/index-DjHyIFoV.js` without browser errors.
 
+## Whole-baht electricity collection (2026-11-28)
+
+- Frontend `e15d5645a19888358ba35dea54379175f571eee8` rounds the electricity
+  bill plus configured service fee up to the next whole baht when reviewing the
+  payment. Example: 123.45 + 10.00 = 133.45, plus 0.55 rounding = 134.00 due.
+  Original utility principal and editable service fee remain unchanged. Exact
+  cash and change use the rounded due, and back navigation preserves entries.
+  Ordinary money transfers continue to accept satang without rounding.
+- Backend `c0411ba9deda0b7fe03ae50a168557a53809506b` adds `cash_transfers.rounding`
+  with default zero. The existing fee remains total shop income (service fee plus
+  rounding) so cash, closing and revenue reconcile; rounding is also persisted
+  separately for review, exports and audit. Old clients and historical records
+  remain compatible. New rounding values are validated and included in retry
+  identity checks. Cancellations exclude both fee and rounding from active totals.
+- The migration was tested on isolated local PostgreSQL and on a temporary branch
+  of the actual Neon main branch. Before/after counts and principal/fee/cash sums
+  for all 26 copied records were identical, with historical rounding zero.
+  Test branch `br-winter-snow-bi7ehkkb` expires automatically at
+  2026-11-28 12:13:39 Bangkok time; the main branch was not edited by this check.
+- Build/lint, the local API integration and mocked iPad browser regressions passed:
+  .01/.99 satang boundaries, already-whole totals, fractional/zero fees, original
+  principal retention, rounded exact cash/change, insufficient unrounded cash,
+  back/edit/review, safe retries, independent transfer behavior, cancellation,
+  audit/reporting/closing and restart persistence. No live sale was used in tests.
+
+- API rollout `dep-dc55b3mi0phs73cf9h50` and frontend rollout
+  `dep-dc55blff3r2c73dj9vf0` went live on November 28. API health returned
+  `ok: true`; the public shop returned HTTP 200 with `/assets/index-BgnVkz8E.js`.
+  Main database schema has the rounding column, and all 26 historical records
+  still have rounding zero.
+- Live owner verification showed 123.45 principal + 10.00 service fee + 0.55
+  rounding = 134.00 due. Exact cash filled 134.00; 200.00 tender showed 66.00
+  change. Going back retained 123.45 principal. The temporary form was discarded
+  without recording a payment; the electricity page is blank and ready to use.
+  Browser error logs were empty. Fresh URL: `https://tingkum-shop-trial.onrender.com/?v=e15d564`.
+
 ## Free-plan behavior
 
 The Render API can sleep after 15 minutes without traffic. The first request after
